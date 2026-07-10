@@ -1,0 +1,55 @@
+name: first-workflow
+on: push
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download the code on runner
+        uses: actions/checkout@v3
+
+      - name: action to install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: lint the code
+        run: npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: download the code on runner
+        uses: actions/checkout@v3
+
+      - name: action to install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: test the code
+        run: npm test
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: download the code on runner
+        uses: actions/checkout@v3
+
+      - name: action to install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: build the code
+        run: npm run build
